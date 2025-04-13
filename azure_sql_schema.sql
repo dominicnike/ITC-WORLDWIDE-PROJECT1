@@ -1,0 +1,6 @@
+
+CREATE TABLE BitcoinPrice (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    PriceUSD DECIMAL(18,8),
+    TimestampUTC DATETIME
+);
