@@ -1,7 +1,8 @@
 
 from airflow import DAG
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
+import logging
 import btc_price_scraper
 
 default_args = {
@@ -13,9 +14,18 @@ default_args = {
 }
 
 def run_scraper():
-    price = btc_price_scraper.fetch_btc_price()
-    if price:
-        btc_price_scraper.save_to_azure_sql(price)
+    try:
+        logging.info("Starting Bitcoin price scraper...")
+        price = btc_price_scraper.fetch_btc_price()
+        if price:
+            logging.info(f"Fetched Bitcoin price: {price}")
+            btc_price_scraper.save_to_azure_sql(price)
+            logging.info("Saved Bitcoin price to Azure SQL.")
+        else:
+            logging.warning("Failed to fetch Bitcoin price.")
+    except Exception as e:
+        logging.error(f"Error in run_scraper: {e}")
+        raise
 
 dag = DAG(
     'btc_price_scraper',
