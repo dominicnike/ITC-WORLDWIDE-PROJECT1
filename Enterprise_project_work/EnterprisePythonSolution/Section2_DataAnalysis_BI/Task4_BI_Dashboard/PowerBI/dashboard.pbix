@@ -1,0 +1,18 @@
+### **Task 4: Business Intelligence Dashboard (Power BI)**
+
+#### **Steps**
+1. **Data Modeling:** Use Power Query to clean and transform the data.
+2. **Visuals:** Create interactive visuals for Bitcoin price trends.
+3. **Connection:** Connect Power BI to Azure SQL.
+
+-- DAX Script for Calculating Bitcoin Price Trends
+BitcoinPriceTrend = 
+    ADDCOLUMNS(
+        SUMMARIZE(
+            BitcoinPrice,
+            BitcoinPrice[Date],
+            "Average Price", AVERAGE(BitcoinPrice[PriceUSD])
+        ),
+        "Price Change", [Average Price] - EARLIER([Average Price])
+    )
+
