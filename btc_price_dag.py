@@ -31,7 +31,7 @@ dag = DAG(
     'btc_price_scraper',
     default_args=default_args,
     description='Scrape Bitcoin price and store in Azure SQL',
-    schedule_interval='@hourly',
+    schedule='@hourly',  # Updated from schedule_interval to schedule
     catchup=False,
 )
 
